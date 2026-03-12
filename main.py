@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 # التوكن الخاص بك (تم دمجه)
-TOKEN = '8781113777:AAHVSjos-0xL5OiWXRmHzs4Bj0RlnbfehoU'
+TOKEN = 8781113777:AAHVSjos-0xL5OiWXRmHzs4Bj0RlnbfehoU
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('أهلاً بك! أنا بوت إدارة المجموعات، جاهز للحفاظ على نظام الجروب.')
