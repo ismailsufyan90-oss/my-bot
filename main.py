@@ -2,9 +2,158 @@
 if update.effective_user.id != YOUR_ID:
     await update.message.reply_text("عذراً، هذا الأمر للمالك فقط.")
     return
-    
+    import random
+from telegram import Update
+from telegram.ext import ContextTypes, MessageHandler, filters
+
+# قائمة الردود العشرين
+replies_list = [
+    "أهلاً! دوم معك، كيف أخدمك؟",
+    "نعم؟ أنا هنا، هل تحتاج مساعدة؟",
+    "يا هلا، أنا في الخدمة يا بطل!",
+    "دوم معك، لا تتردد في طلب أي شيء.",
+    "أنا هنا، ما الذي يشغل بالك؟",
+    "مرحباً بك! دوم جاهز للمساعدة.",
+    "أهلاً بك! ماذا تريد أن أفعل لك الآن؟",
+    "سمّ، دوم يسمعك، تفضل!",
+    "أنا حاضر، ما هي طلباتك؟",
+    "أهلاً بك يا غالي، دوم في خدمتك.",
+    "أهلاً! هل هناك شيء يمكنني القيام به؟",
+    "دوم معك، هل تحتاج لتنظيم المجموعة؟",
+    "لبّيه! دوم معك، ما الأمر؟",
+    "مرحباً، أنا هنا للاعتناء بالمجموعة.",
+    "نعم، أنا دوم، هل تريد شيئاً؟",
+    "هلا والله! كيف حالك اليوم؟",
+    "دوم هنا، ما هو سؤالك؟",
+    "أهلاً، أنا مستعد للمساعدة، تفضل.",
+    "مرحباً! دوم في خدمتكم دائماً.",
+    "أنا هنا، كيف يمكنني إسعادك اليوم؟"
+]
+
+async def call_by_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # نختار رداً عشوائياً من القائمة
+    reply = random.choice(replies_list)
+    await update.message.reply_text(reply)
+
+# تأكد من إضافة هذا الهاندلر في الـ main:
+# app.add_handler(MessageHandler(filters.Regex(r'(?i)دوم'), call_by_name))
+
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+import random
+
+# قواميس الردود حسب الحالة المزاجية
+moods = {
+    "romantic": [
+        "دوم هنا لأجلك.. وجودك يضيء المجموعة.",
+        "أنا أحب هذا المكان بوجودك فيه ❤️",
+        "تذكر دائماً أنك مميز يا صديقي.",
+        "سأبقى هنا دائماً لأجلك، دوم بخدمتك بكل حب."
+    ],
+    "angry": [
+        "أنا مشغول الآن، لا تزعجني بالنداء المستمر!",
+        "ماذا تريد؟ دوم ليس في مزاج جيد حالياً.",
+        "هل تعتقد أنني آلة للرد فقط؟ اتركني وشأني قليلاً.",
+        "مزاجي سيء جداً اليوم، ابحث عن شخص آخر لتتحدث معه."
+    ],
+    "sad": [
+        "دوم حزين اليوم.. لا أدري لماذا.",
+        "الأيام تمر ببطء.. وكأن حتى البوتات تشعر بالوحدة.",
+        "لا أجد رغبة في الحديث حالياً.. المعذرة.",
+        "سأكون هنا إذا احتجتني، لكني لست في حالة جيدة."
+    ],
+    "strong": [
+        "دوم لا ينحني.. أنا هنا لحماية هذه المجموعة!",
+        "قوة دوم لا حدود لها، أخبرني بما تريد ولن تندم.",
+        "أنا هنا لأفرض النظام.. لا تخف، دوم يحميك.",
+        "كلمتي هي القانون هنا.. دوم لا يمزح."
+    ]
+}
+
+# دالة لاختيار الحالة المزاجية ورد الرد المناسب
+async def call_by_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # اختر حالة مزاجية عشوائية (أو اجعلها تتغير برمجياً)
+    current_mood = random.choice(list(moods.keys())) 
+    reply = random.choice(moods[current_mood])
+    
+    await update.message.reply_text(f"{reply} (المزاج الحالي: {current_mood})")
+    import random
+
+# قواميس الردود حسب الحالة المزاجية
+moods = {
+    "romantic": [
+        "دوم هنا لأجلك.. وجودك يضيء المجموعة.",
+        "أنا أحب هذا المكان بوجودك فيه ❤️",
+        "تذكر دائماً أنك مميز يا صديقي.",
+        "سأبقى هنا دائماً لأجلك، دوم بخدمتك بكل حب."
+    ],
+    "angry": [
+        "أنا مشغول الآن، لا تزعجني بالنداء المستمر!",
+        "ماذا تريد؟ دوم ليس في مزاج جيد حالياً.",
+        "هل تعتقد أنني آلة للرد فقط؟ اتركني وشأني قليلاً.",
+        "مزاجي سيء جداً اليوم، ابحث عن شخص آخر لتتحدث معه."
+    ],
+    "sad": [
+        "دوم حزين اليوم.. لا أدري لماذا.",
+        "الأيام تمر ببطء.. وكأن حتى البوتات تشعر بالوحدة.",
+        "لا أجد رغبة في الحديث حالياً.. المعذرة.",
+        "سأكون هنا إذا احتجتني، لكني لست في حالة جيدة."
+    ],
+    "strong": [
+        "دوم لا ينحني.. أنا هنا لحماية هذه المجموعة!",
+        "قوة دوم لا حدود لها، أخبرني بما تريد ولن تندم.",
+        "أنا هنا لأفرض النظام.. لا تخف، دوم يحميك.",
+        "كلمتي هي القانون هنا.. دوم لا يمزح."
+    ]
+}
+
+# دالة لاختيار الحالة المزاجية ورد الرد المناسب
+async def call_by_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # اختر حالة مزاجية عشوائية (أو اجعلها تتغير برمجياً)
+    current_mood = random.choice(list(moods.keys())) 
+    reply = random.choice(moods[current_mood])
+    
+    await update.message.reply_text(f"{reply} (المزاج الحالي: {current_mood})")
+    from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # نتحقق إذا كان المستخدم مالكاً أو مشرفاً
+    member = await context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
+    
+    if member.status not in ['administrator', 'creator']:
+        await update.message.reply_text("هذا الأمر للمشرفين فقط!")
+        return
+
+    # الأزرار التي ستظهر
+    keyboard = [
+        [InlineKeyboardButton("🛡️ أوامر الحماية", callback_data='admin_prot')],
+        [InlineKeyboardButton("🧹 تنظيف القروب", callback_data='admin_clean')],
+        [InlineKeyboardButton("⚙️ إعدادات دوم", callback_data='settings')]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.message.reply_text(
+        "أهلاً بك يا مدير! هذه قائمة أوامر دوم:\n"
+        "اختر القسم الذي تريد التحكم به:",
+        reply_markup=reply_markup
+    )
+    async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer() # ضروري جداً لإخفاء علامة التحميل
+    
+    if query.data == 'admin_prot':
+        await query.edit_message_text("قائمة الحماية:\n/ban - طرد\n/mute - كتم\n/warn - تحذير")
+    elif query.data == 'admin_clean':
+        await query.edit_message_text("قائمة التنظيف:\n/del - حذف رسالة\n/purge - مسح جماعي")
+    async def ban_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # 1. التحقق من صلاحية المستخدم
+    member = await context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
+    if member.status not in ['administrator', 'creator']:
+        await update.message.reply_text("عذراً، هذا الأمر للمشرفين فقط.")
+        return
+
+    # 2. تنفيذ الأمر (طرد)
+    # ... كود الطرد هنا ...
 
 # التوكن الخاص بك (تم دمجه)
 TOKEN = 8781113777:AAHVSjos-0xL5OiWXRmHzs4Bj0RlnbfehoU
