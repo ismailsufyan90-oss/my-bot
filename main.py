@@ -1,4 +1,8 @@
-
+# هذا الكود يمنع أي شخص ليس "أنت" من استخدام أوامر الإدارة الخطيرة
+if update.effective_user.id != YOUR_ID:
+    await update.message.reply_text("عذراً، هذا الأمر للمالك فقط.")
+    return
+    
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
